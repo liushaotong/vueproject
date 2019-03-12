@@ -2,7 +2,7 @@
   <div>
     <div class="login" v-show="loginShow">
       <h2>连接</h2>
-      <input type="text" name="" placeholder="ip地址" id="addr_id" value="192.168.92.129">
+      <input type="text" name="" placeholder="ip地址" id="addr_id" value="192.168.92.130">
       <br>
       <input type="text" name="" placeholder="端口号" id="port_id" value="13999">
       <br>
@@ -11,6 +11,12 @@
     <transition name="newplatform">
       <div class="myplatform" v-show="platformShow">
         <h2>platform</h2>
+        <p>
+           <router-link to="/test"> test </router-link>
+        </p>
+        <div>
+          <router-view></router-view>
+        </div>
       </div>
     </transition>
   </div>
