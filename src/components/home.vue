@@ -1,14 +1,16 @@
 <template>
   <div>
-    <div class="login" v-show="loginShow">
-      <h2>连接</h2>
-      <input type="text" name="" placeholder="ip地址" id="addr_id" value="192.168.92.130">
-      <br>
-      <input type="text" name="" placeholder="端口号" id="port_id" value="13999">
-      <br>
-      <button type="button" name="button" @click="login()">连接</button>
+    <div class="loginback" v-show="loginShow">
+      <div class="loginfront">
+        <h1>连接</h1>
+        <input type="text" name="" placeholder="ip地址" id="addr_id" value="192.168.92.130">
+        <br>
+        <input type="text" name="" placeholder="端口号" id="port_id" value="13999">
+        <br>
+        <button type="button" name="button" @click="login()">连接</button>
+      </div>
     </div>
-    <transition name="newplatform">
+    <transition name="fade">
       <div class="myplatform" v-show="platformShow">
         <h2>platform</h2>
         <p>
@@ -66,8 +68,24 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.login{
+.loginback
+{
   background-image: url(../assets/background.jpg);
-
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
+.loginfront h1
+{
+  text-shadow: 5px 5px 5px #FF0000;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 1s
+}
+.fade-enter, .fade-leave-to  {
+    opacity: 0
+}
+
+
 </style>
