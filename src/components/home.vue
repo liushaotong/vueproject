@@ -76,13 +76,16 @@ export default {
 {
   background-image: url(../assets/background.jpg);
   background-repeat: no-repeat;
+  background-position: center;
   position: absolute;
   height: 100%;
   width: 100%;
+  background-size: cover;
 }
 .loginfront h1
 {
   text-shadow: 5px 5px 5px #FF0000;
+  text-align: center;
 }
 .fade-enter-active, .fade-leave-active {
     transition: opacity 1s
