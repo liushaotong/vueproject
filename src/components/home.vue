@@ -3,11 +3,15 @@
     <div class="loginback" v-show="loginShow">
       <div class="loginfront">
         <h1>连接</h1>
-        <input type="text" name="" placeholder="ip地址" id="addr_id" value="192.168.92.130">
-        <br>
-        <input type="text" name="" placeholder="端口号" id="port_id" value="13999">
-        <br>
-        <button type="button" name="button" @click="login()">连接</button>
+          <div class="input_control">
+            <input type="text" name="" placeholder="请输入你的ip地址" id="addr_id" value="192.168.92.131">
+          </div>
+          <div class="input_control">
+            <input type="text" name="" placeholder="请输入你的端口号" id="port_id" value="13999">
+          </div>
+        <div class="input_control">
+          <input type="button" value="连接" @click="login()">
+        </div>
       </div>
     </div>
     <transition name="fade">
@@ -86,6 +90,45 @@ export default {
 .fade-enter, .fade-leave-to  {
     opacity: 0
 }
+.input_control{
+  width:360px;
+  margin:20px auto;
+}
+input[type="text"],#btn1,#btn2{
+  box-sizing: border-box;
+  text-align:center;
+  font-size:1.4em;
+  height:2.7em;
+  border-radius:4px;
+  border:1px solid #c8cccf;
+  color:#6a6f77;
+  -web-kit-appearance:none;
+  -moz-appearance: none;
+  display:block;
+  outline:0;
+  padding:0 1em;
+  text-decoration:none;
+  width:100%;
+}
+input[type="text"]:focus{
+  border:1px solid #ff7496;
+}
+input[type="button"]{
+  background-color: green;
+  box-sizing: border-box;
+  text-align:center;
+  font-size:1.4em;
+  height:2.7em;
+  border-radius:4px;
+  border:1px solid #c8cccf;
+  -web-kit-appearance:none;
+  -moz-appearance: none;
+  display:block;
+  outline:0;
+  padding:0 1em;
+  text-decoration:none;
+  width:100%;
 
+}
 
 </style>
