@@ -18,7 +18,8 @@
       <div class="myplatform" v-show="platformShow">
         <h2>platform</h2>
         <p>
-           <router-link to="/test"> test </router-link>
+          <router-link to="/"> hello </router-link>
+          <router-link to="/test"> test </router-link>
         </p>
         <div>
           <router-view></router-view>
