@@ -1,23 +1,24 @@
 <template>
-  <div class="modal-backdrop">
-    <div class="modal">
-      <div class="modal-header">
-        <slot name="header">
-          <h2>Title</h2>
-          <button type="button" class="btn-close" @click="close">x</button>
-        </slot>
-      </div>
-      <div class="modal-body">
-        <slot name="body"> Body </slot>
-      </div>
-      <div class="modal-footer">
-        <slot name="footer">
-          Footer
-          <button type="button" class="btn-green" @click="close">关闭</button>
-        </slot>
+  <transition name="modal-fade">
+    <div class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <slot name="header">
+            <h2>Title</h2>
+            <!-- <button type="button" class="btn-close" @click="close">x</button> -->
+          </slot>
+        </div>
+        <div class="modal-body">
+          <slot name="body"> Body </slot>
+        </div>
+        <div class="modal-footer">
+          <span name="footer">
+            <button type="button" class="btn-green" @click="close">关闭</button>
+          </span>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -28,7 +29,6 @@ export default {
   methods: {
     close: function () {
       this.$emit('close');
-      console.log('123');
     }
   }
 }
@@ -91,5 +91,11 @@ export default {
   background-color: #4aae9b;
   border: 1px solid #4aae9b;
   border-radius: 2px;
+}
+.modal-fade-enter-active, .modal-fade-leave-active {
+    transition: opacity .5s
+}
+.modal-fade-enter, .modal-fade-leave-to  {
+    opacity: 0
 }
 </style>

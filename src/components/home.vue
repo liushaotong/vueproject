@@ -17,10 +17,10 @@
     <transition name="fade">
       <div class="myplatform" v-show="platformShow">
         <h2>platform</h2>
-        <p>
-          <router-link to="/"> hello </router-link>
-          <router-link to="/test"> test </router-link>
-        </p>
+        <!-- <p> -->
+          <router-link :to="{ name : 'Hello'}"> hello </router-link>
+          <router-link :to="{name : 'test'}"> test </router-link>
+        <!-- </p> -->
         <div>
           <router-view></router-view>
         </div>
