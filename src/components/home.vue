@@ -1,48 +1,66 @@
 <template>
   <div>
-    <div class="loginback" v-show="loginShow">
-      <div class="loginfront">
-        <h1>连接</h1>
-          <div class="input_control">
-            <input type="text" name="" placeholder="请输入你的ip地址" id="addr_id" value="192.168.92.131">
-          </div>
-          <div class="input_control">
-            <input type="text" name="" placeholder="请输入你的端口号" id="port_id" value="13999">
-          </div>
-        <div class="input_control">
-          <input type="button" value="连接" @click="login()">
-        </div>
+  <section class="login" v-show="loginShow">
+    <header class="login-header">
+      <h1 class="brand"><router-link to="/" tabindex="-1">Title</router-link></h1>
+    </header>
+    <el-form class="login-form" auto-complete="off"  :rules="rules" ref="login-form" label-position="top">
+      <h2 class="heading">Connect</h2>
+      <el-form-item label="ip地址">
+        <el-input type="text" v-model="addr_id" placeholder="请输入ip地址"/>
+      </el-form-item>
+      <el-form-item label="端口号">
+        <el-input type="text" v-model="port_id" placeholder="请输入端口号"/>
+      </el-form-item>
+      <el-button type="primary" :loading="loading" @click="login()">{{ loading ? 'Loading...' : 'Login' }}</el-button>
+    </el-form>
+    <footer class="login-footer">
+      my project
+    </footer>
+  </section>
+  <transition name="fade">
+    <div class="myplatform" v-show="platformShow">
+      <h2>platform</h2>
+      <!-- <p> -->
+        <router-link :to="{ name : 'Hello'}"> hello </router-link>
+        <router-link :to="{name : 'test'}"> test </router-link>
+      <!-- </p> -->
+      <div>
+        <router-view></router-view>
       </div>
     </div>
-    <transition name="fade">
-      <div class="myplatform" v-show="platformShow">
-        <h2>platform</h2>
-        <!-- <p> -->
-          <router-link :to="{ name : 'Hello'}"> hello </router-link>
-          <router-link :to="{name : 'test'}"> test </router-link>
-        <!-- </p> -->
-        <div>
-          <router-view></router-view>
-        </div>
-      </div>
-    </transition>
-  </div>
+  </transition>
+</div>
 </template>
 
 <script>
 export default {
   name: 'home',
+
+
   data () {
+    const rules = {
+      username: { required: true, message: '请输入ip地址' },
+      password: { required: true, message: '请输入端口号' },
+    }
+
     return {
+
+      rules: rules,
+      loading: false,
+
+      addr_id: '192.168.92.131',
+      port_id: '13999',
+
       loginShow: true,
       platformShow: false,
       isconnected: false,
       wsock:'',
       data: {}, //传输json数据
-
     }
   },
-  methods:{
+
+  methods: {
     login () {
       this.socketinit();
     },
@@ -51,9 +69,7 @@ export default {
       this.platformShow = true;
     },
     socketinit () {
-			let netaddr = document.getElementById("addr_id");
-			let netport = document.getElementById("port_id");
-      this.wsock = new WebSocket('ws://'+netaddr.value+':'+netport.value, 'cube-wsport');
+      this.wsock = new WebSocket('ws://'+this.addr_id+':'+this.port_id, 'cube-wsport');
       let self=this;
 			self.wsock.onopen = function (e) {
         if (!this.isconnected) {
@@ -72,21 +88,14 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-.loginback
-{
-  background-image: url(../assets/background.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-}
-.loginfront h1
-{
-  text-shadow: 5px 5px 5px #FF0000;
-  text-align: center;
+<style lang="scss">
+
+body {
+  background: #2b3b49;
+  color: #FFFFFF;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .fade-enter-active, .fade-leave-active {
     transition: opacity 1s
@@ -94,45 +103,63 @@ export default {
 .fade-enter, .fade-leave-to  {
     opacity: 0
 }
-.input_control{
-  width:360px;
-  margin:20px auto;
-}
-input[type="text"],#btn1,#btn2{
-  box-sizing: border-box;
-  text-align:center;
-  font-size:1.4em;
-  height:2.7em;
-  border-radius:4px;
-  border:1px solid #c8cccf;
-  color:#6a6f77;
-  -web-kit-appearance:none;
-  -moz-appearance: none;
-  display:block;
-  outline:0;
-  padding:0 1em;
-  text-decoration:none;
-  width:100%;
-}
-input[type="text"]:focus{
-  border:1px solid #ff7496;
-}
-input[type="button"]{
-  background-color: green;
-  box-sizing: border-box;
-  text-align:center;
-  font-size:1.4em;
-  height:2.7em;
-  border-radius:4px;
-  border:1px solid #c8cccf;
-  -web-kit-appearance:none;
-  -moz-appearance: none;
-  display:block;
-  outline:0;
-  padding:0 1em;
-  text-decoration:none;
-  width:100%;
 
-}
+  .login {
+    flex: 1;
+    width: 95%;
+    max-width: 22rem;
+    margin: 0 auto;
+    font-size: .875rem;
 
+    &-header {
+      margin-bottom: 1rem;
+
+      .brand {
+        margin: 4.5rem 0 3.5rem;
+        text-align: center;
+        letter-spacing: .125rem;
+
+        a {
+          margin: 0;
+          color: #D3DCE6;
+          font: 300 3rem sans-serif;
+
+          &:hover {
+            color: #FFFFFF;
+            text-shadow: 0 0 1rem #FFFFFF;
+          }
+        }
+      }
+    }
+
+    &-form {
+      margin-bottom: 2.5rem;
+      padding: 1.875rem 1.25rem;
+      background: #D3DCE6;
+      color: #2b3b49;
+
+      .heading {
+        margin: 0 0 1rem;
+        font-weight: 400;
+        font-size: 1.5rem;
+      }
+
+      .el-button {
+        margin-top: .5rem;
+        width: 100%;
+      }
+    }
+
+    &-footer {
+      margin-bottom: 1rem;
+      padding: .625rem;
+      border: .0625rem solid #D3DCE6;
+      font-size: .75rem;
+      text-align: center;
+
+      a {
+        color: #D3DCE6;
+      }
+    }
+  }
 </style>
