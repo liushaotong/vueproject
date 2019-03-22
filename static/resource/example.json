@@ -1,0 +1,19 @@
+{
+  "tableData": [{
+        "name": "sm2",
+        "data": "111",
+        "info": "sm2密钥"
+      }, {
+        "name": "sm3",
+        "data": "222",
+        "info": "sm3密钥"
+      }, {
+        "name": "ek",
+        "data": "333",
+        "info": "背书密钥"
+      }, {
+        "name": "smk",
+        "data": "444",
+        "info": "存储根密钥"
+      }]
+}
