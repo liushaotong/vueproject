@@ -4,11 +4,11 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <div class="grid-content bg-purple">
-            <div class="button-content bg-purple">
+            <div class="button-content">
               <h2> TPM1 </h2>
               <el-button type="primary" v-for="site in myData" @click = "showData(site.name)">{{site.name}}</el-button>
             </div>
-            <div class="button-content bg-purple">
+            <div class="button-content">
               <h2> TPM2 </h2>
             </div>
           </div>
