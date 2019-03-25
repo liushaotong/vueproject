@@ -9,7 +9,7 @@
               <el-button type="primary" v-for="site in myData" @click = "showData(site.name)">{{site.name}}</el-button>
             </div>
             <div class="button-content">
-              <h2> TPM2 </h2>
+              <v-tpmbutton message="dad's msg" @listen="showDataa"></v-tpmbutton>
             </div>
           </div>
         </el-col>
@@ -31,12 +31,14 @@
 </template>
 
 <script>
-// import Modal from '../modal/testmodal.vue'
+//import Modal from '../modal/testmodal.vue'
+import tpmbutton from './tpm-button.vue'
 export default {
   name: 'test',
-  // components: {
+  components: {
   //   Modal
-  // },
+    'v-tpmbutton': tpmbutton 
+   },
   data () {
     return {
       myData: [],
@@ -45,9 +47,16 @@ export default {
   },
   methods: {
     showData(name){
-      // console.log(name)
       for(let i = 0; i<this.myData.length; i++ ){
         if(this.myData[i].name == name){
+          this.tableData.pop();
+          this.tableData.push(this.myData[i]);
+        }
+      }
+    },
+    showDataa:function(data){
+        for(let i = 0; i<this.myData.length; i++ ){
+        if(this.myData[i].name == data){
           this.tableData.pop();
           this.tableData.push(this.myData[i]);
         }
