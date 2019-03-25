@@ -4,7 +4,13 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <div class="grid-content bg-purple">
-            <el-button type="primary" v-for="site in myData" @click = "showData(site.name)">{{site.name}}</el-button>
+            <div class="button-content bg-purple">
+              <h2> TPM1 </h2>
+              <el-button type="primary" v-for="site in myData" @click = "showData(site.name)">{{site.name}}</el-button>
+            </div>
+            <div class="button-content bg-purple">
+              <h2> TPM2 </h2>
+            </div>
           </div>
         </el-col>
         <el-col :span="12">
@@ -66,12 +72,12 @@ export default {
     opacity: 0
 }
 
-.el-row {
-    /* margin-bottom: 20px;
+/* .el-row {
+    margin-bottom: 20px;
     &:last-child {
       margin-bottom: 0;
-    } */
-  }
+    }
+  } */
   .el-col {
     border-radius: 4px;
   }
@@ -84,6 +90,10 @@ export default {
   .grid-content {
     border-radius: 4px;
     min-height: 400px;
+  }
+  .button-content {
+    border-style: solid;
+    height: 130px;
   }
   .row-bg {
     padding: 10px 0;
