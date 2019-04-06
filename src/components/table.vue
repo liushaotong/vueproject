@@ -5,22 +5,28 @@
         <el-col :span="12">
           <div class="grid-content bg-purple">
             <div class="button-content">
-              <h2> TPM1 </h2>
-              <el-button type="primary" v-for="site in myData" @click = "showData(site.name)">{{site.name}}</el-button>
-            </div>
-            <div class="button-content">
-              <v-tpmbutton message="dad's msg" @listen="showDataa"></v-tpmbutton>
+              <v-tpmbutton message="dad's msg" @listen="showData"></v-tpmbutton>
             </div>
           </div>
         </el-col>
         <el-col :span="12">
           <div class="grid-content bg-purple-light">
             <el-table :data="tableData" border style="width: 100%">
-              <el-table-column prop="name" label="名字" width="180">
+              <el-table-column prop="uuid" label="uuid" width="180">
               </el-table-column>
-              <el-table-column prop="data" label="数据" width="180">
+              <el-table-column prop="vtcm_uuid" label="vtcm_uuid" width="180">
               </el-table-column>
-              <el-table-column prop="info" label="信息">
+              <el-table-column prop="issmkwrapped" label="issmkwrapped" width="130">
+              </el-table-column>
+              <el-table-column prop="key_usage" label="key_usage" width="130">
+              </el-table-column>
+              <el-table-column prop="key_flags" label="key_flags" width="130">
+              </el-table-column>
+              <el-table-column prop="pcrinfo_uuid" label="pcrinfo_uuid" width="120">
+              </el-table-column>
+              <el-table-column prop="wrapkey_uuid" label="wrapkey_uuid" width="120">
+              </el-table-column>
+              <el-table-column prop="pubkey_uuid" label="pubkey_uuid" width="130">
               </el-table-column>
             </el-table>
           </div>
@@ -34,7 +40,7 @@
 //import Modal from '../modal/testmodal.vue'
 import tpmbutton from './tpm-button.vue'
 export default {
-  name: 'test',
+  name: 'mytable',
   components: {
   //   Modal
     'v-tpmbutton': tpmbutton 
@@ -43,20 +49,13 @@ export default {
     return {
       myData: [],
       tableData: [],
+      myjson: "",
     }
   },
   methods: {
-    showData(name){
-      for(let i = 0; i<this.myData.length; i++ ){
-        if(this.myData[i].name == name){
-          this.tableData.pop();
-          this.tableData.push(this.myData[i]);
-        }
-      }
-    },
-    showDataa:function(data){
+    showData(data){
         for(let i = 0; i<this.myData.length; i++ ){
-        if(this.myData[i].name == data){
+        if(this.myData[i].uuid == data){
           this.tableData.pop();
           this.tableData.push(this.myData[i]);
         }
@@ -64,11 +63,17 @@ export default {
     }
   },
   created: function(){
-    this.$http.get('/static/resource/example.json').then(response => {
-      // this.myjson = JSON.stringify(response.data.tableData);
-      // console.log(this.myjson);
-      this.myData = response.data.tableData;
-    })
+    let self = this;
+    self.$http.get('/static/resource/testkey1.json').then(response => {
+      self.myData.push(response.data);
+    });
+    self.$http.get('/static/resource/testkey2.json').then(response => {
+      self.myData.push(response.data);
+    });
+    self.$http.get('/static/resource/testkey3.json').then(response => {
+      self.myData.push(response.data);
+    });
+    
   }
 }
 </script>

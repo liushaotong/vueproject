@@ -1,7 +1,7 @@
 <template>
   <div class="button-content">
-    <h2>TPM</h2>
-    <el-button type="primary" v-for="(site, name) in myData" :key="name" @click="sendName(site.name)">{{site.name}}</el-button>
+    <h2>{{message}}</h2>
+    <el-button :type="mytype" v-for="(site, uuid) in myData" :key="uuid" @click="sendName(site.uuid)">{{ site.uuid | sixbit }}</el-button>
   </div>
 </template>
 
@@ -11,19 +11,36 @@ export default {
     return {
       myData: [],
       //myName,
+      mytype: "primary",
     }
   },
   props:['message'],
+  filters: {
+    sixbit(value){
+      return value.substr(0,6);
+    }
+  },
   methods: {
-    sendName(name){
-        let myName = name;
+    sendName(uuid){
+        let myName = uuid;
         this.$emit("listen", myName);
     }
   },
   created: function(){
-    this.$http.get('/static/resource/example.json').then(response => {
-        this.myData = response.data.tableData;
+    let self = this;
+    setTimeout(function(){self.$http.get('/static/resource/testkey1.json').then(response => {
+      self.myData.push(response.data);
+    });
+    }, 500);
+    setTimeout(function(){self.$http.get('/static/resource/testkey2.json').then(response => {
+      self.myData.push(response.data);
+    });
+    }, 1000);
+    
+    setTimeout(function(){self.$http.get('/static/resource/testkey3.json').then(response => {
+      self.myData.push(response.data);
     })
+    }, 1500);
   }
 }
 
