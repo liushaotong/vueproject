@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/HelloWorld'
-import Table from '@/components/table'
+
+import Main from '@/components/main'
 
 Vue.use(Router)
 
@@ -13,9 +14,9 @@ export default new Router({
       component: Hello
     },
     {
-      path: '/table',
-      name: 'table',
-      component: Table
-    }
+      path: '/main',
+      name: 'Main',
+      component: Main
+    },
   ]
 })
