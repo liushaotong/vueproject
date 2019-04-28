@@ -1,17 +1,8 @@
 <template>
-  <div class="button-content">
-      <div v-show="showone">
-        <el-button :type="pritype" v-for="(site, uuid) in priData" :key="uuid" @click="sendName(site.uuid)">{{ site.uuid | sixbit }}</el-button>
-        <br>
-        <br>
-        <el-button :type="pubtype" v-for="(site, uuid) in pubData" :key="uuid" @click="sendName(site.uuid)">{{ site.uuid | sixbit }}</el-button>
-      </div>
-      <div v-show="showtwo">
+  <div>
+    <el-button style="float: right; margin-right:10px" @click="findpri()">找私钥</el-button>
+    <el-button style="float: right; margin-right:20px" @click="findpub()">找公钥</el-button>
 
-      </div>
-      <div v-show="showthree">
-
-      </div>
   </div>
 </template>
 
@@ -21,25 +12,26 @@ export default {
     return {
       priData: [],
       pubData: [],
-      showone: false,
-      showtwo: false,
-      showthree: false,
-      //myName,
-      pritype: "primary",
-      pubtype: "success",
     }
   },
-  props:['message'],
-  filters: {
-    sixbit(value){
-      return value.substr(0,6);
-    }
-  },
+  props:['primessage', 'pubmessage'],
   methods: {
-    sendName(uuid){
-        let myName = uuid;
-        this.$emit("listen", myName);
-    }
+    findpri(){
+       for(let i = 0; i<this.priData.length; i++){
+         if(this.priData[i].pubkey_uuid == this.pubmessage){
+           this.$emit("searchpri", this.priData[i].uuid);
+           this.$emit("searchpub", null);
+         }
+       }
+    },
+    findpub(){
+       for(let i = 0; i<this.pubData.length; i++){
+         if(this.pubData[i].prikey_uuid == this.primessage){
+           this.$emit("searchpub", this.pubData[i].uuid);
+           this.$emit("searchpri", null);
+         }
+       }
+    },
   },
   created: function(){
     let self = this;
@@ -67,7 +59,5 @@ export default {
 
 </script>
 <style lang='css' scoped>
-.button-content {
-    height: 60px;
-  }
+
 </style>

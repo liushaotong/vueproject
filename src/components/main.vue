@@ -2,8 +2,7 @@
   <transition name="fade">
     <div>
       <el-row :gutter="20" >
-        <el-button style="float: right; margin-right:10px" @click="findpri()">找私钥</el-button>
-        <el-button style="float: right; margin-right:20px" @click="findpub()">找公钥</el-button>
+        <v-function :primessage="mypri" :pubmessage="mypub" @searchpri="searchpri" @searchpub="searchpub"></v-function>
         <el-col :span="12">
           <br>
           <br>
@@ -13,48 +12,12 @@
         </el-col>
         <el-col :span="12">
           <div class="grid-content-small bg-purple">
-              <!-- <v-tpmbutton message="dad's msg" @listen="showData"></v-tpmbutton>
-              <v-tpmpubbutton message="dad's msg" @listen="showpubData"></v-tpmpubbutton> -->
-            <v-button></v-button>
+            <v-button :message="myhost" :mysearchpri="mysearchpri" :mysearchpub="mysearchpub" @listenpri="setpri" @listenpub="setpub"></v-button>
           </div>
         </el-col>
         <el-col :span="12">
             <div class="grid-content-small bg-purple-light">
-                <el-table :data="pritableData" border style="width: 100%" v-show="showpri">
-              <el-table-column prop="uuid" label="uuid" width="180">
-              </el-table-column>
-              <el-table-column prop="vtcm_uuid" label="vtcm_uuid" width="180">
-              </el-table-column>
-              <el-table-column prop="issmkwrapped" label="issmkwrapped" width="130">
-              </el-table-column>
-              <el-table-column prop="key_usage" label="key_usage" width="130">
-              </el-table-column>
-              <el-table-column prop="key_flags" label="key_flags" width="130">
-              </el-table-column>
-              <el-table-column prop="pcrinfo_uuid" label="pcrinfo_uuid" width="120">
-              </el-table-column>
-              <el-table-column prop="wrapkey_uuid" label="wrapkey_uuid" width="120">
-              </el-table-column>
-              <el-table-column prop="pubkey_uuid" label="pubkey_uuid" width="130">
-              </el-table-column>
-            </el-table>
-
-            <el-table :data="pubtableData" border style="width: 100%" v-show="showpub">
-              <el-table-column prop="uuid" label="uuid" width="180">
-              </el-table-column>
-              <el-table-column prop="vtcm_uuid" label="vtcm_uuid" width="180">
-              </el-table-column>
-              <el-table-column prop="ispubek" label="ispubek" width="130">
-              </el-table-column>
-              <el-table-column prop="key_usage" label="key_usage" width="130">
-              </el-table-column>
-              <el-table-column prop="key_flags" label="key_flags" width="130">
-              </el-table-column>
-              <el-table-column prop="pcrinfo_uuid" label="pcrinfo_uuid" width="120">
-              </el-table-column>
-              <el-table-column prop="prikey_uuid" label="prikey_uuid" width="130">
-              </el-table-column>
-            </el-table>
+              <v-table :primessage="mypri" :pubmessage="mypub"></v-table>
             </div>
           </el-col>
       </el-row>
@@ -63,25 +26,24 @@
 </template>
 
 <script>
-import button from './button.vue'
+import button from './module/button.vue'
+import table from './module/table.vue'
+import func from './module/function.vue'
 export default {
   name: 'mytable',
   components: {
     'v-button': button,
+    'v-table': table,
+    'v-function': func,
    },
   data () {
     return {
       chart: null,
-      showpri: true,
-      showpub: true,
       mypri: "",
       mypub: "",
-      myhost: '',
-      myhost: null, //哪台host
-      priData: [],
-      pubData: [],
-      pritableData: [],
-      pubtableData: [],
+      mysearchpri: "",
+      mysearchpub: "",
+      myhost: 0,
       myjson: "",
       option:{  //echarts
         title: {
@@ -168,64 +130,23 @@ export default {
           this.chart.setOption(this.option);
           let self = this;
           this.chart.on('click',function(params){
-            console.log(params.data.name);
             self.myhost = params.data.name;
           })
       },
-     showData(data){
+     setpri(data){
        this.mypri = data;
-        for(let i = 0; i<this.priData.length; i++ ){
-        if(this.priData[i].uuid == data){
-          this.pritableData.pop();
-          this.pritableData.push(this.priData[i]);
-        }
-      }
-    },
-    showpubData(data){
+      },
+     setpub(data){
         this.mypub = data;
-        for(let i = 0; i<this.pubData.length; i++ ){
-        if(this.pubData[i].uuid == data){
-          this.pubtableData.pop();
-          this.pubtableData.push(this.pubData[i]);
-        }
-      }
-    },
-    findpri(){
-      for(let i = 0; i<this.priData.length; i++){
-        if(this.priData[i].pubkey_uuid == this.mypub){
-          alert(i);
-        }
-      }
-    },
-    findpub(){
-      for(let i = 0; i<this.pubData.length; i++){
-        if(this.pubData[i].prikey_uuid == this.mypri){
-          alert(i);
-        }
-      }
-    },
+      },
+      searchpri(data){
+        this.mysearchpri = data;
+      },
+      searchpub(data){
+        this.mysearchpub = data;
+      },
   },
-  created: function(){
-    let self = this;
-    self.$http.get('/static/resource/privatekey1.json').then(response => {
-      self.priData.push(response.data);
-    });
-    self.$http.get('/static/resource/privatekey2.json').then(response => {
-      self.priData.push(response.data);
-    });
-    self.$http.get('/static/resource/privatekey3.json').then(response => {
-      self.priData.push(response.data);
-    });
-    self.$http.get('/static/resource/publickey1.json').then(response => {
-      self.pubData.push(response.data);
-    });
-    self.$http.get('/static/resource/publickey2.json').then(response => {
-      self.pubData.push(response.data);
-    });
-    self.$http.get('/static/resource/publickey3.json').then(response => {
-      self.pubData.push(response.data);
-    });
-    
+  created: function(){    
   }
 }
 </script>
