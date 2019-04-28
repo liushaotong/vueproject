@@ -2,7 +2,6 @@
   <div>
     <el-button style="float: right; margin-right:10px" @click="findpri()">找私钥</el-button>
     <el-button style="float: right; margin-right:20px" @click="findpub()">找公钥</el-button>
-
   </div>
 </template>
 
@@ -20,7 +19,7 @@ export default {
        for(let i = 0; i<this.priData.length; i++){
          if(this.priData[i].pubkey_uuid == this.pubmessage){
            this.$emit("searchpri", this.priData[i].uuid);
-           this.$emit("searchpub", null);
+           this.$emit("searchpub", this.pubmessage);
          }
        }
     },
@@ -28,7 +27,7 @@ export default {
        for(let i = 0; i<this.pubData.length; i++){
          if(this.pubData[i].prikey_uuid == this.primessage){
            this.$emit("searchpub", this.pubData[i].uuid);
-           this.$emit("searchpri", null);
+           this.$emit("searchpri", this.primessage);
          }
        }
     },
